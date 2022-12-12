@@ -1,7 +1,7 @@
 import { SeraphApi } from "../src";
 
 const PLAYER_UUID  = 'b9aa26ec20b447a59a4ad10cc08a46fe' // Arman
-const API_KEY = "public";
+const API_KEY = "public"; // Seraph key
 
 test('validate key & blacklist', async ()=>{
 	const publicSeraphApi = new SeraphApi({
@@ -30,4 +30,10 @@ test('Testing the lunar api', async ()=>{
 	const seraphApi = new SeraphApi({ apiKey : ""})
 	const lunarResponse = await seraphApi.getPlayerLunar( PLAYER_UUID );
 	expect(lunarResponse.success).toBe(true)
+})
+
+test('Testing player finder api', async ()=>{
+	const seraphApi = new SeraphApi({ apiKey : API_KEY})
+	const response = await seraphApi.getPlayerFinder()
+	expect(response.success).toBe(true)
 })

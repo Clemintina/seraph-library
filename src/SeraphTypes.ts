@@ -60,6 +60,16 @@ export type LunarAPIResponse = {
 	};
 } & SeraphDefaultStructure;
 
+export type PlayerFinderResponse = {
+	data: {
+		players: Array<string>;
+		stats: {
+			last_updated: number;
+			player_count: number;
+		};
+	};
+} & SeraphDefaultStructure;
+
 export type SeraphResponse<T> = Promise<T | ErrorResponse>;
 
 export type ErrorResponse = {

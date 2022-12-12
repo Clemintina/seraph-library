@@ -1,5 +1,5 @@
 import axios from "axios";
-import { ApiKey, Blacklist, ErrorResponse, ErrorResponseExtra, LunarAPIResponse, SeraphResponse } from "./SeraphTypes";
+import { ApiKey, Blacklist, ErrorResponse, ErrorResponseExtra, LunarAPIResponse, PlayerFinderResponse, SeraphResponse } from "./SeraphTypes";
 
 export type ClientOptions = {
 	/**
@@ -29,10 +29,11 @@ export class SeraphApi {
 				"run-api-key": options.apiKey,
 				"User-Agent": options?.userAgent ?? "seraph-library",
 				"Content-Type": "application/json",
+				"Accept-Encoding": "gzip,deflate,compress",
 				Accept: "application/json",
 			},
 			baseURL: "https://api.seraph.si/",
-			timeout: options?.timeout ?? 5000,
+			// timeout: options?.timeout ?? 10000,
 			timeoutErrorMessage: JSON.stringify({
 				success: false,
 				cause: `I have timed out. Response took longer than ${options?.timeout ?? 5000} milliseconds.`,
@@ -73,6 +74,11 @@ export class SeraphApi {
 		} else {
 			return this.validateErrorFromMethod(UUID_NOT_VALID);
 		}
+	}
+
+	public async getPlayerFinder(): SeraphResponse<PlayerFinderResponse> {
+		const { data } = await this.axiosInstance.get<PlayerFinderResponse>(`/playerfinder`);
+		return data;
 	}
 
 	private validateUuid(uuid: string) {

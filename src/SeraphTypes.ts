@@ -1,4 +1,6 @@
 export type Blacklist = {
+	success: true;
+	code: 200;
 	data: {
 		uuid: string;
 		username: string;
@@ -23,6 +25,8 @@ export type Blacklist = {
 } & SeraphDefaultStructure;
 
 export type ApiKey = {
+	success: true;
+	code: 200;
 	key: {
 		key: string;
 		valid: boolean;
@@ -38,6 +42,8 @@ export type LunarCosmetic = {
 };
 
 export type LunarAPIResponse = {
+	success: true;
+	code: 200;
 	player: {
 		uuid: string;
 		online: boolean;
@@ -61,6 +67,8 @@ export type LunarAPIResponse = {
 } & SeraphDefaultStructure;
 
 export type PlayerFinderResponse = {
+	success: true;
+	code: 200;
 	data: {
 		players: Array<string>;
 		stats: {
@@ -74,12 +82,11 @@ export type SeraphResponse<T> = Promise<T | ErrorResponse>;
 
 export type ErrorResponse = {
 	success: false;
-	code: number;
-	msTime: number;
+	code: 400 | 401 | 404 | 429 | 503;
 	cause: string;
 	extra: Array<ErrorResponseExtra>;
 	documentation: string;
-};
+} & SeraphDefaultStructure;
 
 export type ErrorResponseExtra = {
 	name: string;
@@ -88,11 +95,4 @@ export type ErrorResponseExtra = {
 	code?: number;
 };
 
-type SeraphDefaultStructure =
-	| ({
-			code: number;
-			msTime: number;
-	  } & {
-			success: true;
-	  })
-	| ErrorResponse;
+type SeraphDefaultStructure = { code: 200 | 400 | 401 | 404 | 429 | 503; msTime: number };

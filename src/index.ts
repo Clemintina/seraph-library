@@ -33,7 +33,7 @@ export class SeraphApi {
 				Accept: "application/json",
 			},
 			baseURL: "https://api.seraph.si/",
-			// timeout: options?.timeout ?? 10000,
+			timeout: options?.timeout ?? 5000,
 			timeoutErrorMessage: JSON.stringify({
 				success: false,
 				cause: `I have timed out. Response took longer than ${options?.timeout ?? 5000} milliseconds.`,

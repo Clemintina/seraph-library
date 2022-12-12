@@ -4,7 +4,7 @@
   "description": "A library to interact with https://api.seraph.si",
   "main": "dist/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "jest",
     "lint": "eslint . --ext .ts"
   },
   "author": "Clemintina",
@@ -13,11 +13,14 @@
     "axios": "^1.2.1"
   },
   "devDependencies": {
+    "@types/jest": "^29.2.4",
     "@types/node": "^18.7.16",
     "@typescript-eslint/eslint-plugin": "^5.46.0",
     "@typescript-eslint/parser": "^5.46.0",
     "eslint": "^8.29.0",
+    "eslint-plugin-import": "^2.26.0",
     "prettier": "^2.7.1",
+    "ts-jest": "^29.0.3",
     "typescript": "^4.9.4"
   }
 }

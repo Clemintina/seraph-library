@@ -1,10 +1,12 @@
 {
-  "name": "seraph-library",
+  "name": "@clemintina/seraph-library",
   "version": "1.0.0",
   "description": "A library to interact with https://api.seraph.si",
-  "main": "dist/index.js",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
   "scripts": {
     "test": "jest",
+    "build": "tsc",
     "lint": "prettier src --write && eslint . --ext .ts"
   },
   "author": "Clemintina",

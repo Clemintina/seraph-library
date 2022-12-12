@@ -10,7 +10,8 @@
 		"noImplicitAny": true,
 		"sourceMap": true,
 		"baseUrl": ".",
-		"outDir": "dist",
+		"outDir": "lib",
+		"declaration": true,
 		"moduleResolution": "node",
 		"strictNullChecks": true,
 		"pretty": true,
@@ -23,6 +24,7 @@
 		"src/**/*"
 	],
 	"exclude": [
-		"node_modules"
+		"node_modules",
+		"lib"
 	]
 }

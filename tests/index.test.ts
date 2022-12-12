@@ -24,3 +24,10 @@ test('Fail key & blacklist', async ()=>{
 	const failedBlacklistResponse = await failingSeraphApi.getPlayerBlacklist(PLAYER_UUID)
 	expect(failedBlacklistResponse.success).toBe(false)
 })
+
+test('Testing the lunar api', async ()=>{
+	// No API key is needed as the API is available to everyone
+	const seraphApi = new SeraphApi({ apiKey : ""})
+	const lunarResponse = await seraphApi.getPlayerLunar( PLAYER_UUID );
+	expect(lunarResponse.success).toBe(true)
+})

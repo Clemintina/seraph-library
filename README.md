@@ -1,6 +1,6 @@
 # Seraph
 
-This library is a small package designed to assist people use the [Seraph API](https://antisniper.seraph.si).
+This library is a small package designed to assist people using the [Seraph API](https://antisniper.seraph.si).
 
 To get started,
 

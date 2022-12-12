@@ -38,8 +38,6 @@ export type LunarCosmetic = {
 };
 
 export type LunarAPIResponse = {
-	success: boolean;
-	code: number;
 	player: {
 		uuid: string;
 		online: boolean;
@@ -60,8 +58,7 @@ export type LunarAPIResponse = {
 			unknownBooleanC: boolean;
 		};
 	};
-	msTime: number;
-};
+} & SeraphDefaultStructure;
 
 export type SeraphResponse<T> = Promise<T | ErrorResponse>;
 
@@ -81,7 +78,7 @@ export type ErrorResponseExtra = {
 	code?: number;
 };
 
-export type SeraphDefaultStructure =
+type SeraphDefaultStructure =
 	| ({
 			code: number;
 			msTime: number;

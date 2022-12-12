@@ -1,5 +1,5 @@
 import axios from "axios";
-import { ApiKey, Blacklist, ErrorResponse, ErrorResponseExtra, SeraphResponse } from "./SeraphTypes";
+import { ApiKey, Blacklist, ErrorResponse, ErrorResponseExtra, LunarAPIResponse, SeraphResponse } from "./SeraphTypes";
 
 export type ClientOptions = {
 	/**
@@ -15,6 +15,8 @@ export type ClientOptions = {
 	 */
 	timeout?: number;
 };
+
+const UUID_NOT_VALID = "The UUID provided doesn't match the undashed type required";
 
 export class SeraphApi {
 	private apiKey;
@@ -60,7 +62,16 @@ export class SeraphApi {
 			const { data } = await this.axiosInstance.get<Blacklist>(`/blacklist?uuid=${uuid}`);
 			return data;
 		} else {
-			return this.validateErrorFromMethod(`The UUID provided didn't match`);
+			return this.validateErrorFromMethod(UUID_NOT_VALID);
+		}
+	}
+
+	public async getPlayerLunar(uuid: string): SeraphResponse<LunarAPIResponse> {
+		if (this.validateUuid(uuid)) {
+			const { data } = await this.axiosInstance.get<LunarAPIResponse>(`/lunar/${uuid}`);
+			return data;
+		} else {
+			return this.validateErrorFromMethod(UUID_NOT_VALID);
 		}
 	}
 
@@ -68,7 +79,7 @@ export class SeraphApi {
 		return uuid.match(/^[0-9a-f]{32}$/);
 	}
 
-	private validateErrorFromMethod(cause: string): ErrorResponse {
+	private validateErrorFromMethod(cause: string, extraErrors?: Array<ErrorResponseExtra>): ErrorResponse {
 		const extra: Array<ErrorResponseExtra> = [
 			{
 				name: "Invalid Request",
@@ -76,6 +87,9 @@ export class SeraphApi {
 				reason: cause,
 			},
 		];
+		if (extraErrors) {
+			extraErrors.map((err) => extra.push(err));
+		}
 		return {
 			success: false,
 			code: 400,

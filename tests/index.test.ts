@@ -37,3 +37,15 @@ test('Testing player finder api', async ()=>{
 	const response = await seraphApi.getPlayerFinder()
 	expect(response.success).toBe(true)
 })
+
+test('Handle security alert', async ()=>{
+	const seraphApi = new SeraphApi({apiKey: ''})
+	const response = await seraphApi.isKeyValid();
+	expect(response).toBe(false)
+	if ( response.code == 200){
+		expect(response.success).toBeDefined()
+		expect(response.key.valid).toBeDefined()
+	}else {
+		expect(response.cause).toBeDefined()
+	}
+})

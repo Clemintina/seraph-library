@@ -1,7 +1,8 @@
 import { SeraphApi } from "../src";
 
 const PLAYER_UUID = "b9aa26ec20b447a59a4ad10cc08a46fe"; // Arman
-const API_KEY = "public"; // Seraph key
+const API_KEY = "public"; // Public Seraph key
+const LOCKED_API_KEY = "cb6d0a30-695a-4b97-9490-48c8e0ae194e" // Permanently locked key -- For testing purposes
 
 test("validate key & blacklist", async () => {
 	const publicSeraphApi = new SeraphApi({
@@ -39,7 +40,7 @@ test("Testing player finder api", async () => {
 });
 
 test("Handle security alert", async () => {
-	const seraphApi = new SeraphApi({ apiKey: "cb6d0a30-695a-4b97-9490-48c8e0ae194e" }); // Permanently locked key
+	const seraphApi = new SeraphApi({ apiKey: LOCKED_API_KEY }); // Permanently locked key
 	const response = await seraphApi.isKeyValid();
 	expect(response.success).toBe(false);
 	if (response.code == 200) {

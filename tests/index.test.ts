@@ -1,4 +1,5 @@
 import { SeraphApi } from "../src";
+import { expect, test } from "@jest/globals";
 
 const PLAYER_UUID = "b9aa26ec20b447a59a4ad10cc08a46fe"; // Arman
 const API_KEY = "public"; // Public Seraph key
@@ -46,9 +47,9 @@ test("Handle security alert", async () => {
 	if (response.code == 200) {
 		expect(response.success).toBeDefined();
 		expect(response.key.valid).toBeDefined();
-		expect(response.key.error).toBe('Your key has a security alert. Please open a support ticket!')
 	} else {
 		expect(response.success).toBeDefined();
 		expect(response.key.valid).toBe(false)
+		expect(response.key.error).toBe('Your key has a security alert. Please open a support ticket!')
 	}
 });

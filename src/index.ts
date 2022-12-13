@@ -43,21 +43,28 @@ export class SeraphApi {
 						name: "Timeout",
 						code: 500,
 						reason: "The library has timed out.",
-						developer_reason: `Please check you're connected to the internet and the Seraph API is up. If the API is down, Contact us via discord immedietly.`,
+						developer_reason: `Please check you're connected to the internet and the Seraph API is up. If the API is down, Contact us via discord immedietly.`
 					},
 				],
 				documentation: "https://api.seraph.si",
-				msTime: Date.now(),
+				msTime: Date.now()
 			}),
-			validateStatus: () => true,
+			validateStatus: () => true
 		});
 	}
 
+	/**
+	 * Checks if the key is valid
+	 */
 	public async isKeyValid(): SeraphResponse<ApiKey> {
 		const { data } = await this.axiosInstance.get<ApiKey>("/key");
 		return data;
 	}
 
+	/**
+	 * Gets the relevant information about the player such as blacklisted, safelisted and encounters
+	 * @param uuid The player's un-dashed UUID
+	 */
 	public async getPlayerBlacklist(uuid: string): SeraphResponse<Blacklist> {
 		if (this.validateUuid(uuid)) {
 			const { data } = await this.axiosInstance.get<Blacklist>(`/blacklist?uuid=${uuid}`);
@@ -67,6 +74,10 @@ export class SeraphApi {
 		}
 	}
 
+	/**
+	 * Gets information about the player such as Online status, Current cosmetics and Lunar plus
+	 * @param uuid
+	 */
 	public async getPlayerLunar(uuid: string): SeraphResponse<LunarAPIResponse> {
 		if (this.validateUuid(uuid)) {
 			const { data } = await this.axiosInstance.get<LunarAPIResponse>(`/lunar/${uuid}`);
@@ -76,22 +87,36 @@ export class SeraphApi {
 		}
 	}
 
+	/**
+	 * Gets a list of UUIDs generated every 3-5 minutes
+	 */
 	public async getPlayerFinder(): SeraphResponse<PlayerFinderResponse> {
 		const { data } = await this.axiosInstance.get<PlayerFinderResponse>(`/playerfinder`);
 		return data;
 	}
 
+	/**
+	 * Validates a player's UUID as un-dashed
+	 * @param uuid
+	 * @private
+	 */
 	private validateUuid(uuid: string) {
 		return uuid.match(/^[0-9a-f]{32}$/);
 	}
 
+	/**
+	 * Replicates the Error schema based on the API's format
+	 * @param cause
+	 * @param extraErrors
+	 * @private
+	 */
 	private validateErrorFromMethod(cause: string, extraErrors?: Array<ErrorResponseExtra>): ErrorResponse {
 		const extra: Array<ErrorResponseExtra> = [
 			{
 				name: "Invalid Request",
 				code: 400,
-				reason: cause,
-			},
+				reason: cause
+			}
 		];
 		if (extraErrors) {
 			extraErrors.map((err) => extra.push(err));

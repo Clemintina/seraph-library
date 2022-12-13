@@ -1,6 +1,9 @@
 import axios from "axios";
 import { ApiKey, Blacklist, ErrorResponse, ErrorResponseExtra, LunarAPIResponse, PlayerFinderResponse, SeraphResponse } from "./SeraphTypes";
 
+/**
+ * Options which can modify the behaviour of the client
+ */
 export type ClientOptions = {
 	/**
 	 *  Seraph API Key
@@ -16,10 +19,17 @@ export type ClientOptions = {
 	timeout?: number;
 };
 
+/**
+ * The default message for invalid UUIDs which don't match the required format
+ */
 const UUID_NOT_VALID = "The UUID provided doesn't match the undashed type required";
 
 export class SeraphApi {
 	private apiKey;
+	/**
+	 * The axios client we use to send requests with preconfigured headers and timeouts
+	 * @private
+	 */
 	private readonly axiosInstance;
 
 	constructor(options: ClientOptions) {
@@ -43,20 +53,21 @@ export class SeraphApi {
 						name: "Timeout",
 						code: 500,
 						reason: "The library has timed out.",
-						developer_reason: `Please check you're connected to the internet and the Seraph API is up. If the API is down, Contact us via discord immedietly.`
+						developer_reason: `Please check you're connected to the internet and the Seraph API is up. If the API is down, Contact us via discord immedietly.`,
 					},
 				],
 				documentation: "https://api.seraph.si",
-				msTime: Date.now()
+				msTime: Date.now(),
 			}),
-			validateStatus: () => true
+			validateStatus: () => true,
 		});
 	}
 
 	/**
 	 * Checks if the key is valid
+	 * @return ApiKey
 	 */
-	public async isKeyValid(): SeraphResponse<ApiKey> {
+	public async isKeyValid(): Promise<ApiKey> {
 		const { data } = await this.axiosInstance.get<ApiKey>("/key");
 		return data;
 	}
@@ -64,6 +75,7 @@ export class SeraphApi {
 	/**
 	 * Gets the relevant information about the player such as blacklisted, safelisted and encounters
 	 * @param uuid The player's un-dashed UUID
+	 * @return Blacklist
 	 */
 	public async getPlayerBlacklist(uuid: string): SeraphResponse<Blacklist> {
 		if (this.validateUuid(uuid)) {
@@ -76,7 +88,8 @@ export class SeraphApi {
 
 	/**
 	 * Gets information about the player such as Online status, Current cosmetics and Lunar plus
-	 * @param uuid
+	 * @param uuid - The player's un-dashed UUID
+	 * @return LunarAPIResponse
 	 */
 	public async getPlayerLunar(uuid: string): SeraphResponse<LunarAPIResponse> {
 		if (this.validateUuid(uuid)) {
@@ -89,6 +102,7 @@ export class SeraphApi {
 
 	/**
 	 * Gets a list of UUIDs generated every 3-5 minutes
+	 * @return Array<string>
 	 */
 	public async getPlayerFinder(): SeraphResponse<PlayerFinderResponse> {
 		const { data } = await this.axiosInstance.get<PlayerFinderResponse>(`/playerfinder`);
@@ -97,7 +111,8 @@ export class SeraphApi {
 
 	/**
 	 * Validates a player's UUID as un-dashed
-	 * @param uuid
+	 * @param uuid - The player's un-dashed UUID
+	 * @return boolean
 	 * @private
 	 */
 	private validateUuid(uuid: string) {
@@ -106,8 +121,9 @@ export class SeraphApi {
 
 	/**
 	 * Replicates the Error schema based on the API's format
-	 * @param cause
-	 * @param extraErrors
+	 * @param cause - The reason for the error
+	 * @param extraErrors - Additional errors if there are multiple
+	 * @return ErrorResponse
 	 * @private
 	 */
 	private validateErrorFromMethod(cause: string, extraErrors?: Array<ErrorResponseExtra>): ErrorResponse {
@@ -115,8 +131,8 @@ export class SeraphApi {
 			{
 				name: "Invalid Request",
 				code: 400,
-				reason: cause
-			}
+				reason: cause,
+			},
 		];
 		if (extraErrors) {
 			extraErrors.map((err) => extra.push(err));
@@ -126,7 +142,7 @@ export class SeraphApi {
 			code: 400,
 			cause,
 			extra,
-			documentation: "https://api.seraph.si",
+			documentation: "https://antisniper.seraph.si",
 			msTime: Date.now(),
 		};
 	}

@@ -39,13 +39,15 @@ test("Testing player finder api", async () => {
 });
 
 test("Handle security alert", async () => {
-	const seraphApi = new SeraphApi({ apiKey: "" });
+	const seraphApi = new SeraphApi({ apiKey: "cb6d0a30-695a-4b97-9490-48c8e0ae194e" }); // Permanently locked key
 	const response = await seraphApi.isKeyValid();
-	expect(response).toBe(false);
+	expect(response.success).toBe(false);
 	if (response.code == 200) {
 		expect(response.success).toBeDefined();
 		expect(response.key.valid).toBeDefined();
+		expect(response.key.error).toBe('Your key has a security alert. Please open a support ticket!')
 	} else {
-		expect(response.cause).toBeDefined();
+		expect(response.success).toBeDefined();
+		expect(response.key.valid).toBe(false)
 	}
 });

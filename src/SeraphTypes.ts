@@ -26,11 +26,12 @@ export type Blacklist = {
 
 export type ApiKey = {
 	success: true;
-	code: 200;
+	code: 200 | 400 | 403;
 	key: {
 		key: string;
 		valid: boolean;
-		code: number;
+		error?: string;
+		code: 200 | 400 | 403;
 		isDev: boolean;
 	};
 } & SeraphDefaultStructure;

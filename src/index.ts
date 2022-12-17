@@ -183,7 +183,6 @@ export class PolsuApi {
 		});
 	}
 
-
 	/**
 	 * Gets the Service Status of Polsu, Polsu API, Croustillant, and the Launch time of the API.
 	 */
@@ -306,5 +305,4 @@ export class PolsuApi {
 			code: status,
 		};
 	}
-
 }

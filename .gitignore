@@ -5,3 +5,5 @@
 /pnpm-lock.yaml
 seraph-library.iml
 /jest/
+.idea
+/.idea/

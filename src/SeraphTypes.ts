@@ -21,6 +21,8 @@ export type Blacklist = {
 		statistics: { encounters: number; threat_level: number };
 		migrated: { tagged: boolean };
 		annoylist: { tagged: boolean };
+		name_change: { last_change: number };
+		ranked_bedwars: { elo: number };
 	};
 } & SeraphDefaultStructure;
 

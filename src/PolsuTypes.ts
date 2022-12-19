@@ -62,7 +62,13 @@ export type BedwarsMap = {
 	added: number;
 	builders: string;
 	new: boolean;
+	festival: string;
+	reskinOf: string;
+	minBuild: number;
+	maxBuild: number;
+	buildRadius: number;
 	preview: string;
+	inRotation: boolean;
 };
 
 export type BedwarsMaps = {
@@ -103,6 +109,15 @@ export type Session = {
 		bbroken: number;
 		blost: number;
 	};
+	last_checked: {
+		timestamp: number;
+		xp: number;
+	};
+	player: {
+		uuid: string;
+		username: string;
+		last_changed: number | null;
+	};
 	new: boolean;
 };
 
@@ -140,19 +155,42 @@ export type MinecraftServer = {
 };
 
 // Bedwars Dreams Utils
+/**
+ * Dreams object for #BedwarsDreams
+ * @internal
+ * @returns BedwarsDreamsObject
+ */
 type BedwarsDreamsObject = { date: number; mode: string };
 
 // Polsu Common
+
+/**
+ * A Polsu response switch
+ * @returns PolsuResponse
+ */
 export type PolsuResponse<T> = Promise<{ success: true; data: T; code: 200 } | ErrorResponse>;
 
+/**
+ * A Polsu Error handler
+ * @returns ErrorResponse
+ */
 export type ErrorResponse = {
 	success: false;
 	code: 400 | 403 | 404 | 429 | 500;
 	cause: string;
 } & PolsuDefaultStructure;
 
+/**
+ * Polsu status codes
+ * @internal
+ * @returns PolsuDefaultStructure
+ */
 type PolsuDefaultStructure = { code: 200 | 400 | 401 | 404 | 429 | 503 };
 
+/**
+ * Known Bedwars maps
+ * @returns KnownBedwarsMaps
+ */
 export type KnownBedwarsMaps =
 	| "acropolis"
 	| "airshow"
@@ -162,6 +200,7 @@ export type KnownBedwarsMaps =
 	| "ashfire"
 	| "babylon"
 	| "bio hazard"
+	| "blossom"
 	| "cascade"
 	| "casita"
 	| "cliffside"
@@ -229,7 +268,7 @@ export type KnownBedwarsMaps =
 	| "obelisk"
 	| "paladin"
 	| "paradox"
-	| "pharoah"
+	| "pharaoh"
 	| "planet 98"
 	| "pool party"
 	| "relic"
@@ -251,4 +290,13 @@ export type KnownBedwarsMaps =
 	| "picnic"
 	| "ruins"
 	| "castle"
-	| "sandcastle";
+	| "sandcastle"
+	| "frosted"
+	| "loft"
+	| "santa's rush"
+	| "gingerbread"
+	| "snowkeep"
+	| "comet"
+	| "blitzen"
+	| "fireplace"
+	| "lotice";

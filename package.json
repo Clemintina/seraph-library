@@ -11,6 +11,7 @@
   "scripts": {
     "test": "jest",
     "build": "tsc",
+    "prepublishOnly": "tsc",
     "lint": "prettier src --write && eslint . --ext .ts"
   },
   "author": "Clemintina",

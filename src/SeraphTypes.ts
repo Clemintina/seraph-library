@@ -85,7 +85,7 @@ export type SeraphResponse<T> = Promise<T | ErrorResponse>;
 
 export type ErrorResponse = {
 	success: false;
-	code: 400 | 401 | 404 | 429 | 503;
+	code: 400 | 401 | 403 | 404 | 429 | 503;
 	cause: string;
 	extra: Array<ErrorResponseExtra>;
 	documentation: string;

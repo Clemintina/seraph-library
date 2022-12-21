@@ -3,6 +3,7 @@
 /node_modules/
 /dist/
 /pnpm-lock.yaml
+/lib/
 seraph-library.iml
 /jest/
 .idea

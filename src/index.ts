@@ -81,47 +81,47 @@ export class SeraphApi {
 	 * Checks if the key is valid
 	 * @return ApiKey
 	 */
-	public async isKeyValid(): Promise<ApiKey> {
+	public isKeyValid = async (): Promise<ApiKey> => {
 		const { data } = await this.axiosInstance.get<ApiKey>("/key");
 		return data;
-	}
+	};
 
 	/**
 	 * Gets the relevant information about the player such as blacklisted, safelisted and encounters
 	 * @param uuid The player's un-dashed UUID
 	 * @return Blacklist
 	 */
-	public async getPlayerBlacklist(uuid: string): SeraphResponse<Blacklist> {
+	public getPlayerBlacklist = async (uuid: string): SeraphResponse<Blacklist> => {
 		if (validateUuid(uuid)) {
-			const { data } = await this.axiosInstance.get<Blacklist>(`/blacklist?uuid=${uuid}`);
+			const { data } = await this.axiosInstance.get<Blacklist>(`/blacklist/${uuid}`);
 			return data;
 		} else {
 			return this.validateErrorFromMethod(UUID_NOT_VALID);
 		}
-	}
+	};
 
 	/**
 	 * Gets information about the player such as Online status, Current cosmetics and Lunar plus
 	 * @param uuid - The player's un-dashed UUID
 	 * @return LunarAPIResponse
 	 */
-	public async getPlayerLunar(uuid: string): SeraphResponse<LunarAPIResponse> {
+	public getPlayerLunar = async (uuid: string): SeraphResponse<LunarAPIResponse> => {
 		if (validateUuid(uuid)) {
 			const { data } = await this.axiosInstance.get<LunarAPIResponse>(`/lunar/${uuid}`);
 			return data;
 		} else {
 			return this.validateErrorFromMethod(UUID_NOT_VALID);
 		}
-	}
+	};
 
 	/**
 	 * Gets a list of UUIDs generated every 3-5 minutes
 	 * @return Array<string>
 	 */
-	public async getPlayerFinder(): SeraphResponse<PlayerFinderResponse> {
+	public getPlayerFinder = async (): SeraphResponse<PlayerFinderResponse> => {
 		const { data } = await this.axiosInstance.get<PlayerFinderResponse>(`/playerfinder`);
 		return data;
-	}
+	};
 
 	/**
 	 * Replicates the Error schema based on the API's format
@@ -130,7 +130,7 @@ export class SeraphApi {
 	 * @return ErrorResponse
 	 * @private
 	 */
-	private validateErrorFromMethod(cause: string, extraErrors?: Array<ErrorResponseExtra>): ErrorResponse {
+	private validateErrorFromMethod = (cause: string, extraErrors?: Array<ErrorResponseExtra>): ErrorResponse => {
 		const extra: Array<ErrorResponseExtra> = [
 			{
 				name: "Invalid Request",
@@ -149,7 +149,7 @@ export class SeraphApi {
 			documentation: "https://antisniper.seraph.si",
 			msTime: Date.now(),
 		};
-	}
+	};
 }
 
 /**
@@ -186,123 +186,123 @@ export class PolsuApi {
 	/**
 	 * Gets the Service Status of Polsu, Polsu API, Croustillant, and the Launch time of the API.
 	 */
-	public async getServiceStatus(): PolsuResponse<ServiceStatus> {
+	public getServiceStatus = async (): PolsuResponse<ServiceStatus> => {
 		const { data, status } = await this.axiosInstance.get<PolsuResponse<ServiceStatus>>(`/services/status`);
 		return {
 			...data,
 			code: status,
 		};
-	}
+	};
 
 	/**
 	 * Gets the Service Statistics of Polsu such as User count, Player count and other metrics
 	 */
-	public async getServiceStatistics(): PolsuResponse<ServiceStats> {
+	public getServiceStatistics = async (): PolsuResponse<ServiceStats> => {
 		const { data, status } = await this.axiosInstance.get<PolsuResponse<ServiceStats>>(`/services/stats`);
 		return {
 			...data,
 			code: status,
 		};
-	}
+	};
 
 	/**
 	 * Gets information about the API key provided
 	 * @return PolsuApiKey
 	 */
-	public async getKeyInformation(): PolsuResponse<PolsuApiKey> {
+	public getKeyInformation = async (): PolsuResponse<PolsuApiKey> => {
 		const { data, status } = await this.axiosInstance.get<PolsuResponse<PolsuApiKey>>(`/api/key`);
 		return {
 			...data,
 			code: status,
 		};
-	}
+	};
 
 	/**
 	 * Gets information about a Discord account linked to Polsu
 	 * @param discordSnowflake
 	 * @return AccountInformation
 	 */
-	public async getAccountInformation(discordSnowflake: string): PolsuResponse<AccountInformation> {
+	public getAccountInformation = async (discordSnowflake: string): PolsuResponse<AccountInformation> => {
 		const { data, status } = await this.axiosInstance.get<PolsuResponse<AccountInformation>>(`/polsu/account?id=${discordSnowflake}`);
 		return {
 			...data,
 			code: status,
 		};
-	}
+	};
 
 	/**
 	 * Gets information about a map
 	 * @param map - The map you'd like information about
 	 * @return BedwarsMap
 	 */
-	public async getBedwarsMapInformation(map: KnownBedwarsMaps): PolsuResponse<BedwarsMap> {
+	public getBedwarsMapInformation = async (map: KnownBedwarsMaps): PolsuResponse<BedwarsMap> => {
 		const { data, status } = await this.axiosInstance.get<PolsuResponse<BedwarsMap>>(`/polsu/bedwars/map?map=${map}`);
 		return {
 			...data,
 			code: status,
 		};
-	}
+	};
 
 	/**
 	 * Gets a array of all known Bedwars maps. If there is a map missing, Please join the official discord, https://discord.gg/polsu
 	 * @return BedwarsMaps
 	 */
-	public async getAllBedwarsMaps(): PolsuResponse<BedwarsMaps> {
+	public getAllBedwarsMaps = async (): PolsuResponse<BedwarsMaps> => {
 		const { data, status } = await this.axiosInstance.get<PolsuResponse<BedwarsMaps>>(`/polsu/bedwars/maps`);
 		return {
 			...data,
 			code: status,
 		};
-	}
+	};
 
 	/**
 	 * Gets information about this player's Polsu session
 	 * @param uuid - The player's undashed uuid
 	 * @return Session
 	 */
-	public async getBedwarsSession(uuid: string): PolsuResponse<Session> {
+	public getBedwarsSession = async (uuid: string|string[]): PolsuResponse<Session> => {
 		const { data, status } = await this.axiosInstance.get<PolsuResponse<Session>>(`/polsu/bedwars/sessions?uuid=${uuid}`);
 		return {
 			...data,
 			code: status,
 		};
-	}
+	};
 
 	/**
 	 * Gets an object of months which provide an array of known rotations.
 	 * @return BedwarsDreams
 	 */
-	public async getBedwarsDreams(): PolsuResponse<BedwarsDreams> {
+	public getBedwarsDreams = async (): PolsuResponse<BedwarsDreams> => {
 		const { data, status } = await this.axiosInstance.get<PolsuResponse<BedwarsDreams>>(`/polsu/bedwars/dream`);
 		return {
 			...data,
 			code: status,
 		};
-	}
+	};
 
 	/**
 	 * Gets API Status information about a specific Minecraft API such as Hypixel or Polsu
 	 * @param service - The service to get information about.
 	 * @return MinecraftAPI
 	 */
-	public async getMinecraftAPIStatus(service: "hypixel" | "mojang" | "antisniper" | "seraph" | "cubelify" | "polsu"): PolsuResponse<MinecraftAPI> {
+	public getMinecraftAPIStatus = async (service: "hypixel" | "mojang" | "antisniper" | "seraph" | "cubelify" | "polsu"): PolsuResponse<MinecraftAPI> => {
 		const { data, status } = await this.axiosInstance.get<PolsuResponse<MinecraftAPI>>(`/polsu/minecraft/api?name=${service}`);
 		return {
 			...data,
 			code: status,
 		};
-	}
+	};
 
 	/**
 	 * Gets information about a Minecraft server which is public provided by Polsu.
 	 * @param serverIp - A server URL or IP to get information about
 	 * @return MinecraftServer
 	 */
-	public async getMinecraftServer(serverIp: string): PolsuResponse<MinecraftServer> {
+	public getMinecraftServer = async (serverIp: string): PolsuResponse<MinecraftServer> => {
 		const { data, status } = await this.axiosInstance.get<PolsuResponse<MinecraftServer>>(`/polsu/minecraft/server?ip=${serverIp}`);
 		return {
 			...data,
 			code: status,
 		};
-	}
+	};
 }

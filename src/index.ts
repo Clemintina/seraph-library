@@ -260,12 +260,20 @@ export class PolsuApi {
 	 * @param uuid - The player's undashed uuid
 	 * @return Session
 	 */
-	public getBedwarsSession = async (uuid: string|string[]): PolsuResponse<Session> => {
-		const { data, status } = await this.axiosInstance.get<PolsuResponse<Session>>(`/polsu/bedwars/sessions?uuid=${uuid}`);
-		return {
-			...data,
-			code: status,
-		};
+	public getBedwarsSession = async (uuid: string|string[]): Promise<PolsuResponse<Session> | PolsuResponse<Session[]>> => {
+		if ( Array.isArray( uuid ) ) {
+			const { data, status } = await this.axiosInstance.post<PolsuResponse<Session[]>>( `/polsu/bedwars/sessions`,{uuids:uuid} );
+			return {
+				...data,
+				code: status,
+			};
+		}else {
+			const { data, status } = await this.axiosInstance.get<PolsuResponse<Session>>( `/polsu/bedwars/sessions?uuid=${ uuid }` );
+			return {
+				...data,
+				code: status,
+			};
+		}
 	};
 
 	/**
